@@ -1,0 +1,30 @@
+1. Contare i corsi raggruppati per cfu
+SELECT `cfu`, COUNT(`id`) AS 'numero'
+FROM `courses`
+GROUP BY `cfu`;
+
+2. Contare gli studenti raggruppati per anno di nascita
+SELECT YEAR(`date_of_birth`), COUNT(`id`) AS 'numero'
+FROM `students`
+GROUP BY YEAR(`date_of_birth`);
+
+3. Selezionare il voto più basso dato ad ogni appello d'esame
+SELECT MIN(`vote`), `exam_id`
+FROM `exam_student`
+GROUP BY `exam_id`;
+
+--- Per ottenere il nome del corso a cui fa riferimento l'esame collegato alla tabella exams
+SELECT MIN(`vote`), `exam_id`, courses.name
+FROM `exam_student` INNER JOIN `exams`
+ON exam_id = exams.id
+INNER JOIN courses
+ON exams.course_id = courses.id
+GROUP BY `exam_id`;
+--- questa query ha un collegamento tra 3 tabelle:
+    "exam_student" è collegata ad "exams", che è collegata a "courses"
+
+4. Contare gli appelli d'esame del mese di luglio raggruppati per giorno
+SELECT DAY(`date`) AS 'Giorno', COUNT(`id`) AS 'Numero'
+FROM `exams`
+WHERE MONTH(`date`) = 7
+GROUP BY DAY(`date`);
